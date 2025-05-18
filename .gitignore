@@ -1,0 +1,20 @@
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+ids.xlsx
+links.xlsx
+Readme.txt
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+tests/
+utils/
+page-objects/
+
