@@ -27,7 +27,10 @@ export class SignInPage {
 
     //Login together
     async login(email, password) {
+        //wait for the page to fully loaded and stop loading
+        await this.page.waitForLoadState('load')
         await this.emailField.fill(email);
+        await this.page.waitForTimeout(1000);
         await this.nextButton.click();
         await this.passwordField.waitFor({ state: 'visible' });
         await this.passwordField.fill(password);
