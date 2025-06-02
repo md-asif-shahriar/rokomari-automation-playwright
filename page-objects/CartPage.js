@@ -28,15 +28,12 @@ export class CartPage {
 
     async visit() {
         await this.page.goto('/cart');
+        await this.page.waitForLoadState('load');
     }
 
     async getPageTitle() {
         return await this.page.title();
     }   
-
-    async waitForPageLoad() {
-        await this.page.waitForLoadState('load');
-    }
 
     /* **************************** Cart - all products section **************************** */
     async isCartEmpty() {
@@ -125,6 +122,7 @@ export class CartPage {
         if (pointerEvents === 'auto') {
           await this.proceedToCheckoutButton.click();
           console.log('✅ Proceed to checkout button is enabled and clicked');
+          await this.page.waitForLoadState('load');
         } else {
           console.log('❌ Proceed to checkout button is disabled (pointer-events: none)');
           return;

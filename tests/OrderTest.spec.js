@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../page-objects/HomePage';
 import { SignInPage } from '../page-objects/SignInPage';
-import { Navigation } from '../page-objects/Navigation';
 import { SearchResultPage } from '../page-objects/SearchResultPage';
 import { BookDetailsPage } from '../page-objects/BookDetailsPage';
 import { CartPage } from '../page-objects/CartPage';
@@ -49,7 +48,7 @@ test('Complete Order Flow', async ({ page }) => {
       await homePage.visit();
       await expect.soft(page).toHaveTitle(homePageTitle);
       console.log('✅ Home page loads successfully');
-      await page.pause();
+      
     });
   
     // Verify page title matches expected title
@@ -57,27 +56,26 @@ test('Complete Order Flow', async ({ page }) => {
       await homePage.gotoLogin();
       await expect.soft(page).toHaveTitle(signInPageTitle);
       console.log('✅ Sign-in page loaded successfully');
-      await page.pause();
+      
     });
     await test.step('Login using email and password and redirected to home page', async () => {
       await signInPage.login(email, password);
-      await page.waitForLoadState('domcontentloaded');
       await expect.soft(page).toHaveTitle(homePageTitle);
       console.log('✅ Login successful and redirect to home page');
-      await page.pause();
+      
     });
     await test.step('User name testing', async () => {
       const currentUsername = await homePage.getUserName();
       expect.soft(currentUsername).toBe(username);
       console.log('✅ Username is showing correctly after login');
-      await page.pause();
+      
     });
     await test.step('Search for a book', async () => {
       const searchKeyword = testData.searchKeyword;
       await homePage.search(searchKeyword);
       await expect.soft(page).toHaveTitle(searchResultPageTitle);
       console.log('✅ Search result shows successfully');
-      await page.pause();
+      
     });
 
     await test.step('Verify if the searched product is found', async () => {
@@ -89,14 +87,14 @@ test('Complete Order Flow', async ({ page }) => {
       }
       console.log(`✅ ${productTitle} - not found in search results`);
       console.log("✅ Product: ", product);  
-      await page.pause();
+      
     });
 
     await test.step('Open the book details page', async () => {
       await searchResultPage.goToProductDetails();
       await expect.soft(page).toHaveTitle(bookDetailsPageTitle);
       console.log('✅ Book details page loaded successfully');
-      await page.pause();
+      
     });
 
     await test.step('Add product to cart', async () => {
@@ -111,14 +109,14 @@ test('Complete Order Flow', async ({ page }) => {
         expect.soft(updatedCartButtonText.trim()).toBe('Go to Cart ->');
         console.log('✅ Product added to cart successfully');
       }
-      await page.pause();
+      
     });
 
     await test.step('Go to cart', async () => {
       await bookDetailsPage.goToCart();
       await expect.soft(page).toHaveTitle(cartPageTitle);
       console.log('✅ Navigated to cart page successfully');
-      await page.pause();
+      
     });
   
     //Verify cart is empty when no products are present
@@ -126,12 +124,12 @@ test('Complete Order Flow', async ({ page }) => {
       const isEmpty = await cartPage.isCartEmpty();
       if (isEmpty) {
         console.log('❌ Cart is empty, skipping all the other tests');
-        await page.pause();
+        
         return; // Skip the test if cart is not empty
       }
       expect.soft(isEmpty).toBeFalsy();
       console.log('✅ Cart is not empty');
-      await page.pause();
+      
     });
   
     // Verify select all selects all products and selected product count matches
@@ -147,7 +145,7 @@ test('Complete Order Flow', async ({ page }) => {
       const actualSelectedCount = await cartPage.getSelectedProductCount();
       expect.soft(displayedCount).toBe(actualSelectedCount);
       console.log('✅ Select all product works perfectly');
-      await page.pause();
+      
     });
   
     // Verify deselect all, deselects all products and count is 0
@@ -163,7 +161,7 @@ test('Complete Order Flow', async ({ page }) => {
       expect.soft(displayedCountAfterDeselect).toBe(0); // Verify displayed count is 0 after deselection
       expect.soft(selectedCountAfterDeselect).toBe(0); // Verify count is 0 after deselection
       console.log('✅ Deselect all product works perfectly');
-      await page.pause();
+      
     });
   
     // Verify product selection and toggling
@@ -173,7 +171,7 @@ test('Complete Order Flow', async ({ page }) => {
       const isProductInCart = await cartPage.isProductInCart(productId);
       if (!isProductInCart) {
         console.log(`❌ Product ID: ${productId} not found in cart`);
-        await page.pause();
+        
         return; // Skip the test if product is not found
       }
       console.log(`✅ Product ID: ${productId} found in cart`);
@@ -182,45 +180,45 @@ test('Complete Order Flow', async ({ page }) => {
       const isProductNowSelected = await cartPage.isProductSelected(productId);
       expect.soft(isProductNowSelected).toBeTruthy();
       console.log(`✅ Product ID: ${productId} is selected and verified successfully`);
-      await page.pause();
+      
     });
     // Verify proceed to checkout button is enabled
     await test.step('Verify proceed to checkout button is enabled', async () => {
       await cartPage.clickProceedToCheckout();
       await expect.soft(page).toHaveTitle(shippingPageTitle);
       console.log('✅ Proceed to checkout is successfully clicked and shipping page is loaded');
-      await page.pause();
+      
     });
     
     await test.step('Select Cash on delivery', async () => {
       await shippingPage.selectCashOnDelivery();
       //await expect.soft(page).toHaveTitle(shippingPageTitle);
       console.log('✅ Cash on delivery is selected and Confirm order button is clickable');
-      await page.pause();
+      
     });
 
     await test.step('Confirm order', async () => {
       await shippingPage.clickConfirmOrder();
       await expect.soft(page).toHaveTitle(confirmedOrderPageTitle);
       console.log('✅ Order confirmed successfully and confirmed order page is loaded');
-      await page.pause();
+      
     });
     await test.step('Verify if order number is generated', async () => {
       orderNumber = await confirmedOrderPage.getOrderNumber();
       expect(orderNumber).toBeDefined();
       console.log('✅ Order number is generated successfully');
-      await page.pause();
+      
     });
     await test.step('Verify order number length', async () => {
       expect(orderNumber.length).toBe(14);
       console.log('✅ Order number is verified successfully');
-      await page.pause();
+      
     });
     await test.step('Go to track order', async () => {
       await confirmedOrderPage.clickTrackOrder();
       await expect.soft(page).toHaveTitle(trackOrderPageTitle);
       console.log('✅ Track order page is loaded successfully');
-      await page.pause();
+      
     });
 
   });

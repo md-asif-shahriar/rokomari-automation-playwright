@@ -121,6 +121,7 @@ export class BookDetailsPage {
         console.log('Go to cart page...');
         await this.goToCartButton.click();
         await this.page.waitForURL(/cart/);
+        await this.page.waitForLoadState('load');
     }
     /******************************* Product Info End ********************************/
 

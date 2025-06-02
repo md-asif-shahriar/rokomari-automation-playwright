@@ -9,15 +9,10 @@ export class HomePage {
     this.searchField = page.getByPlaceholder('Search by');
     this.totalCartItem = page.locator('#js--cart-quantity');
   }
-
-  async waitForPageLoad() {
-        await this.page.waitForLoadState('load');
-    }
-
   async visit() {
     console.log('Visiting Rokomari homepage...');
     await this.page.goto('/');
-    await this.waitForPageLoad();
+    await this.page.waitForLoadState('load');
   }
 
   async getTitle() {
@@ -28,9 +23,11 @@ export class HomePage {
     try {
       await this.page.locator('.modal_modal__RCZrz > .absolute').click();
       await this.signInButton.click();
+      await this.page.waitForLoadState('load')
     } catch (error) {
       console.log("Using direct URL to login....");
       await this.page.goto('/login');
+      await this.page.waitForLoadState('load')
     }
     
   }
@@ -46,6 +43,7 @@ export class HomePage {
         await this.searchField.fill(keyword);
         await this.searchField.press('Enter');
         await this.page.waitForTimeout(3000);
+        await this.page.waitForLoadState('load');
     }
 
   async closePopUp() {

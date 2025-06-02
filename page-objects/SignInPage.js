@@ -10,15 +10,9 @@ export class SignInPage {
         //this.loginButton = page.locator('//button[@type="submit" and @class="btn btn-block"]');
       }
 
-   
-
-    async waitForPageLoad() {
-        await this.page.waitForLoadState('load');
-    }
-
      async visit() {
         await this.page.goto('/login');
-        await this.waitForPageLoad();
+        await this.page.waitForLoadState('load');
     }
 
     async getTitle() {
@@ -28,7 +22,7 @@ export class SignInPage {
     //Login together
     async login(email, password) {
         //wait for the page to fully loaded and stop loading
-        await this.page.waitForLoadState('load')
+        await this.page.waitForLoadState('load');
         await this.emailField.fill(email);
         await this.page.waitForTimeout(1000);
         await this.nextButton.click();

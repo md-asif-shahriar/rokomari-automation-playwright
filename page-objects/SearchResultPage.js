@@ -54,5 +54,6 @@ export class SearchResultPage {
     async goToProductDetails() {
         await this.page.goto("https://www.rokomari.com/book/195175/bela-furabar-age");
         await this.page.waitForTimeout(3000);
+        await this.page.waitForLoadState('load');
     }
 }

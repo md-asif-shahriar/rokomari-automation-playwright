@@ -17,5 +17,7 @@ export class ShippingPage {
     async clickConfirmOrder() {
         await this.confirmOrderButton.scrollIntoViewIfNeeded();
         await this.confirmOrderButton.click();
+        console.log('✅ Confirm order button is clicked');
+        await this.page.waitForLoadState('load');
     }
 }

@@ -21,5 +21,6 @@ export class ConfirmedOrderPage {
     async clickTrackOrder() {
         await this.trackOrderButton.scrollIntoViewIfNeeded();
         await this.trackOrderButton.click();
+        await this.page.waitForLoadState('load');
     }
 }
