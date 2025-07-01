@@ -32,6 +32,16 @@ test('Complete Order Flow', async ({ page }) => {
     const confirmedOrderPageTitle = testData.titles.confirmedOrderPage;
     const trackOrderPageTitle = testData.titles.trackOrderPage;
 
+    // Page URL paths
+    const homePagePath = testData.paths.homePage;
+    const signInPagePath = testData.paths.signInPage;
+    const searchResultPagePath = testData.paths.searchResultPage;
+    const bookDetailsPagePath = testData.paths.bookDetailsPage;
+    const cartPagePath = testData.paths.cartPage;
+    const shippingPagePath = testData.paths.shippingPage;
+    const confirmedOrderPagePath = testData.paths.confirmedOrderPage;
+    const trackOrderPagePath = testData.paths.trackOrderPage;
+
     // User credentials
     const email = process.env.EMAIL;
     const password = process.env.PASSWORD;
@@ -47,6 +57,7 @@ test('Complete Order Flow', async ({ page }) => {
     await test.step('Open homepage', async () => {
       await homePage.visit();
       await expect.soft(page).toHaveTitle(homePageTitle);
+      expect.soft(page.url()).toMatch(homePagePath);
       console.log('✅ Home page loads successfully');
       
     });
@@ -55,12 +66,14 @@ test('Complete Order Flow', async ({ page }) => {
     await test.step('Go to sign in page', async () => {
       await homePage.gotoLogin();
       await expect.soft(page).toHaveTitle(signInPageTitle);
+      expect.soft(page.url()).toMatch(signInPagePath);
       console.log('✅ Sign-in page loaded successfully');
       
     });
     await test.step('Login using email and password and redirected to home page', async () => {
       await signInPage.login(email, password);
       await expect.soft(page).toHaveTitle(homePageTitle);
+      expect.soft(page.url()).toMatch(homePagePath);
       console.log('✅ Login successful and redirect to home page');
       
     });
@@ -74,6 +87,7 @@ test('Complete Order Flow', async ({ page }) => {
       const searchKeyword = testData.searchKeyword;
       await homePage.search(searchKeyword);
       await expect.soft(page).toHaveTitle(searchResultPageTitle);
+      expect.soft(page.url()).toMatch(searchResultPagePath);
       console.log('✅ Search result shows successfully');
       
     });
@@ -114,7 +128,9 @@ test('Complete Order Flow', async ({ page }) => {
 
     await test.step('Go to cart', async () => {
       await bookDetailsPage.goToCart();
+      await cartPage.checkCartPageUrl();
       await expect.soft(page).toHaveTitle(cartPageTitle);
+      expect.soft(page.url()).toMatch(cartPagePath);
       console.log('✅ Navigated to cart page successfully');
       
     });
@@ -129,7 +145,6 @@ test('Complete Order Flow', async ({ page }) => {
       }
       expect.soft(isEmpty).toBeFalsy();
       console.log('✅ Cart is not empty');
-      
     });
   
     // Verify select all selects all products and selected product count matches
@@ -186,6 +201,7 @@ test('Complete Order Flow', async ({ page }) => {
     await test.step('Verify proceed to checkout button is enabled', async () => {
       await cartPage.clickProceedToCheckout();
       await expect.soft(page).toHaveTitle(shippingPageTitle);
+      expect.soft(page.url()).toMatch(shippingPagePath);
       console.log('✅ Proceed to checkout is successfully clicked and shipping page is loaded');
       
     });
@@ -200,6 +216,7 @@ test('Complete Order Flow', async ({ page }) => {
     await test.step('Confirm order', async () => {
       await shippingPage.clickConfirmOrder();
       await expect.soft(page).toHaveTitle(confirmedOrderPageTitle);
+      expect.soft(page.url()).toMatch(confirmedOrderPagePath);
       console.log('✅ Order confirmed successfully and confirmed order page is loaded');
       
     });
@@ -217,8 +234,8 @@ test('Complete Order Flow', async ({ page }) => {
     await test.step('Go to track order', async () => {
       await confirmedOrderPage.clickTrackOrder();
       await expect.soft(page).toHaveTitle(trackOrderPageTitle);
+      expect.soft(page.url()).toMatch(trackOrderPagePath);
       console.log('✅ Track order page is loaded successfully');
-      
     });
 
   });
