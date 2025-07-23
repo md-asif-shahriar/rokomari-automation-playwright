@@ -10,6 +10,10 @@ ids.xlsx
 links.xlsx
 Readme.txt
 
+# IDE/editor folders
+.vscode/
+.idea/
+
 # Temporary files
 *.tmp
 *.temp
@@ -22,4 +26,15 @@ Readme.txt
 *.env.development
 *.env.production
 *.env.test
+.env.example
+
+# Specific test files
+tests/OrderTest2.spec.js
+tests/CartTest.spec.js
+tests/CartTest2.spec.js
+tests/DetailsPage.spec.js
+tests/example2.spec.js
+tests/excel.spec.js
+tests/TopMenuTest.spec.js
+
 

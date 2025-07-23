@@ -45,6 +45,10 @@ export class BookDetailsPage {
         return await this.page.title();
     }
 
+    //  async checkPageUrl() {
+    //     await expect(this.page).toHaveURL(/^\/book(\?|$)/);
+    // }
+
     async getTest() {
         console.log('Test function called');
         console.log(await this.bookTitle.innerText());

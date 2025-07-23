@@ -15,7 +15,21 @@ const testData = {
     confirmedOrderPage: 'Order Confirmation | Rokomari.com',
     trackOrderPage: 'Order Track | Rokomari.com',
     myOrdersPage: 'My Orders | Rokomari.com',
+  },
+
+  //Page URL paths
+  paths: {
+    homePage: '/',
+    signInPage: '/login',
+    searchResultPage: '/search',
+    bookDetailsPage: '/book/195175/bela-furabar-age',
+    cartPage: '/cart',
+    shippingPage: '/shipping',
+    confirmedOrderPage: '/order-confirmation',
+    trackOrderPage: '/ordertrack',
+    myOrdersPage: '/my-orders',
   }
+
 };
 
 export default testData;

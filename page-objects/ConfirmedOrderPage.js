@@ -1,3 +1,4 @@
+import { expect } from '@playwright/test';
 export class ConfirmedOrderPage {
     constructor(page) {
         this.page = page;
@@ -6,6 +7,15 @@ export class ConfirmedOrderPage {
         this.copyOrderNumberButton = page.locator('button.js--orderId-copy-code');
         //this.orderNumber = page.locator('p:has-text("অর্ডার নম্বর")');
         this.trackOrderButton = page.getByRole('link', { name: 'Track Order' });
+    }
+
+    async getUrlPath() {
+        const fullUrl = this.page.url();  // Get the full URL of the page
+        const url = new URL(fullUrl);  // Parse the full URL
+        // Get the path excluding query parameters and fragments
+        const exactPath = url.pathname.split('/')[1] ? `/${url.pathname.split('/')[1]}` : '/';
+        console.log("Confirmed order page path: ", exactPath);
+        return exactPath;
     }
 
     async getOrderNumber() {

@@ -1,3 +1,4 @@
+import { expect } from '@playwright/test';
 export class SignInPage {
     constructor(page) {
         this.page = page;
@@ -13,6 +14,16 @@ export class SignInPage {
      async visit() {
         await this.page.goto('/login');
         await this.page.waitForLoadState('load');
+    }
+
+    async getUrlPath() {
+        //await expect.soft(this.page).toHaveURL(/^\/login(\?|$)/);
+        const fullUrl = this.page.url();  // Get the full URL of the page
+        const url = new URL(fullUrl);  // Parse the full URL
+        // Get the path excluding query parameters and fragments
+        const exactPath = url.pathname.split('/')[1] ? `/${url.pathname.split('/')[1]}` : '/';
+        console.log("Login Path: ", exactPath);
+        return exactPath;
     }
 
     async getTitle() {

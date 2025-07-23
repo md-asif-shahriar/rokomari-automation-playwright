@@ -1,7 +1,9 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../page-objects/HomePage';
 import { SignInPage } from '../page-objects/SignInPage';
+import { CartPage } from '../page-objects/CartPage';
 import testData from '../data/testData';
+import { assert } from 'console';
 require('dotenv').config();
 
 
@@ -9,6 +11,7 @@ test('Log in test', async ({ page }) => {
     // Initialize page objects
     const homePage = new HomePage(page);
     const signInPage = new SignInPage(page);
+    const cartPage = new CartPage(page);
 
     // Page titles
     const homePageTitle = testData.titles.homePage;
@@ -41,5 +44,11 @@ test('Log in test', async ({ page }) => {
       const currentUsername = await homePage.getUserName();
       expect.soft(currentUsername).toBe(username);
       console.log('✅ Username is showing correctly after login');
+    });
+    await test.step('Go to cart', async () => {
+      await bookDetailsPage.goToCart();
+      await expect.soft(page).toHaveTitle(cartPageTitle);
+      console.log('✅ Navigated to cart page successfully');
+      await page.pause();
     });
 });

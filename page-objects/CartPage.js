@@ -1,3 +1,4 @@
+import { expect } from '@playwright/test';
 export class CartPage {
     constructor(page){
         this.page = page;
@@ -14,6 +15,8 @@ export class CartPage {
         this.incrementButton = (productId) => page.locator(`js--btn-plus-${productId}`);
         this.decrementButton = (productId) => page.locator(`js--btn-minus-${productId}`);
         this.productCheckbox = (productId) => page.locator(`#select-${productId}`);
+
+        this.shippingSection = page.locator('#shipping-address-cart-page');
 
         this.subTotal = page.locator('#js--sub-total');
         this.onlineFee = page.locator('#js--shipping-charge');
@@ -34,6 +37,15 @@ export class CartPage {
     async getPageTitle() {
         return await this.page.title();
     }   
+
+    async getUrlPath() {
+      const fullUrl = this.page.url();  // Get the full URL of the page
+        const url = new URL(fullUrl);  // Parse the full URL
+        // Get the path excluding query parameters and fragments
+        const exactPath = url.pathname.split('/')[1] ? `/${url.pathname.split('/')[1]}` : '/';
+        console.log("Cart page path: ", exactPath);
+        return exactPath;
+    }
 
     /* **************************** Cart - all products section **************************** */
     async isCartEmpty() {
@@ -110,6 +122,19 @@ export class CartPage {
         return fields.map(f => f.trim()).filter(f => f !== '');
       }
 
+      async isShippingSectionVisible() {
+        return await this.shippingSection.isVisible();
+      }
+
+      //shipping address visibility test
+      async isShippingAddressVisible() {
+        //first child of shipping section is the address
+        const shippingAddress = await this.shippingSection.locator(':first-child').locator('.address').allTextContents();
+        console.log('Shipping Address: ', shippingAddress);
+        return shippingAddress.length > 0;
+      }
+
+    /* **************************** Cart - checkout summary section enddddd **************************** */  
     async clickProceedToCheckout() {
         console.log('Proceeding to checkout...');
         await this.proceedToCheckoutButton.scrollIntoViewIfNeeded();
